@@ -24,6 +24,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", "\"https://asia-south1-truecaller-web.cloudfunctions.net/webapi/noneu/\"")
+        buildConfigField("String", "HOST", "\"asia-south1-truecaller-web.cloudfunctions.net\"")
     }
 
     buildTypes {
