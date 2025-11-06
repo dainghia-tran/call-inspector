@@ -39,11 +39,11 @@ android {
     }
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_23
+            jvmTarget = JvmTarget.JVM_17
         }
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_23
-            targetCompatibility = JavaVersion.VERSION_23
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
     }
     buildFeatures {
