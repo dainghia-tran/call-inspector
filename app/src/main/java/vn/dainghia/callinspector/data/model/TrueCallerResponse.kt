@@ -17,6 +17,8 @@ data class TrueCallerResponse(
     val phones: List<PhoneInfo>,
     @SerialName("addresses")
     val addresses: List<Address>,
+    @SerialName("isFraud")
+    val isFraud: Boolean,
 )
 
 
@@ -47,7 +49,7 @@ data class Address(
     @SerialName("countryCode")
     val countryCode: String,
     @SerialName("timeZone")
-    val timeZone: String,
+    val timeZone: String? = null,
     @SerialName("type")
     val type: String
 )
