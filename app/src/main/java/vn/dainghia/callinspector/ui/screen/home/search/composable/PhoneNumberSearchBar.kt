@@ -1,7 +1,6 @@
 package vn.dainghia.callinspector.ui.screen.home.search.composable
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -14,7 +13,6 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,17 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberSearchBar(
+    interactionSource: MutableInteractionSource,
+    isFocused: Boolean,
     onSearch: (String) -> Unit,
-    onFocusChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val textFieldState = rememberTextFieldState()
-    val interactionSource = remember { MutableInteractionSource() }
-    val isFocused = interactionSource.collectIsFocusedAsState().value
-
-    LaunchedEffect(isFocused) {
-        onFocusChanged(isFocused)
-    }
 
     BasicTextField(
         state = textFieldState,
@@ -71,5 +64,9 @@ fun PhoneNumberSearchBar(
 @Preview
 @Composable
 fun SearchBarPreview() {
-    PhoneNumberSearchBar({}, {})
+    PhoneNumberSearchBar(
+        interactionSource = remember { MutableInteractionSource() },
+        isFocused = true,
+        onSearch = {}
+    )
 }
