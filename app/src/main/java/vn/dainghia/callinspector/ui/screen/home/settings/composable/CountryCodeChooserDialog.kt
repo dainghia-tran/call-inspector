@@ -26,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.res.stringResource
+import vn.dainghia.callinspector.R
 import vn.dainghia.callinspector.ui.theme.CallInspectorTheme
 import vn.dainghia.callinspector.util.CountryCodeUtil
 
@@ -47,7 +49,7 @@ fun CountryCodeChooserDialog(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    "Select Country Code",
+                    stringResource(R.string.dialog_country_code_title),
                     fontSize = 20.sp,
                     modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
                     style = MaterialTheme.typography.titleLarge,
@@ -91,7 +93,7 @@ fun CountryCodeChooserDialog(
                     onClick = onDismissRequest,
                     modifier = Modifier.padding(8.dp),
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
             }
         }

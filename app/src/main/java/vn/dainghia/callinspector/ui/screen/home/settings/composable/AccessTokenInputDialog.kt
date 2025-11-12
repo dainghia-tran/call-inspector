@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.res.stringResource
+import vn.dainghia.callinspector.R
 import vn.dainghia.callinspector.ui.theme.CallInspectorTheme
 
 @Composable
@@ -41,7 +43,7 @@ fun AccessTokenInputDialog(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    "TrueCaller Access Token",
+                    stringResource(R.string.dialog_access_token_title),
                     fontSize = 20.sp,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -57,14 +59,14 @@ fun AccessTokenInputDialog(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth(),
-                    label = { Text("Access Token") },
+                    label = { Text(stringResource(R.string.dialog_access_token_label)) },
                 )
                 Row {
                     TextButton(
                         onClick = onDismissRequest,
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.dialog_cancel))
                     }
                     TextButton(
                         onClick = {
@@ -73,7 +75,7 @@ fun AccessTokenInputDialog(
                         },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Save")
+                        Text(stringResource(R.string.dialog_save))
                     }
                 }
             }

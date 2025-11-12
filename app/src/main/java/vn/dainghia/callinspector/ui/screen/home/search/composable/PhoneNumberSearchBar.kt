@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
+import vn.dainghia.callinspector.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +50,7 @@ fun PhoneNumberSearchBar(
                 leadingIcon = { Icon(Icons.Default.Search, null) },
                 shape = SearchBarDefaults.inputFieldShape,
                 label = if (textFieldState.text.isEmpty() && !isFocused) {
-                    { Text("Search phone number") }
+                    { Text(stringResource(R.string.search_phone_number_hint)) }
                 } else {
                     null
                 },

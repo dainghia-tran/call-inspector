@@ -24,9 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import vn.dainghia.callinspector.R
 import vn.dainghia.callinspector.data.model.Address
 import vn.dainghia.callinspector.data.model.PhoneInfo
 import vn.dainghia.callinspector.data.model.TrueCallerResponse
@@ -64,7 +66,7 @@ fun CallerInfoCard(
                         .weight(1f)
                 ) {
                     val displayName = trueCallerResponse.name.ifBlank {
-                        "Unknown"
+                        stringResource(R.string.unknown)
                     }
                     Text(
                         displayName,
@@ -107,11 +109,11 @@ private fun FraudWarning(modifier: Modifier = Modifier) {
     ) {
         Icon(
             Icons.Default.Warning,
-            contentDescription = "Fraud Warning Icon",
+            contentDescription = null,
             tint = MaterialTheme.colorScheme.onError
         )
         Text(
-            "Fraud",
+            stringResource(R.string.fraud),
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onError
@@ -170,7 +172,7 @@ private fun CircleName(name: String, modifier: Modifier = Modifier) {
 @Composable
 private fun Address(addresses: List<Address>, modifier: Modifier = Modifier) {
     Text(
-        "Address",
+        stringResource(R.string.address),
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onSecondary
     )
@@ -189,7 +191,7 @@ private fun Address(addresses: List<Address>, modifier: Modifier = Modifier) {
 @Composable
 private fun PhoneInformation(phones: List<PhoneInfo>, modifier: Modifier = Modifier) {
     Text(
-        "Phone",
+        stringResource(R.string.phone),
         modifier = modifier,
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onSecondary

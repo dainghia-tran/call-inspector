@@ -1,5 +1,6 @@
 package vn.dainghia.callinspector.ui.screen.home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -22,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import vn.dainghia.callinspector.R
 import vn.dainghia.callinspector.ui.screen.home.search.SearchPage
 import vn.dainghia.callinspector.ui.screen.home.settings.SettingsPage
 
@@ -38,7 +41,7 @@ fun HomeScreen() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text(Page.entries[currentPageIndex].title) }) },
+        topBar = { TopAppBar(title = { Text(stringResource(Page.entries[currentPageIndex].titleResId)) }) },
         bottomBar = {
             NavigationBar {
                 Page.entries.forEachIndexed { index, page ->
@@ -64,9 +67,9 @@ fun HomeScreen() {
     }
 }
 
-private enum class Page(val title: String, val icon: ImageVector) {
-    Search("Search", Icons.Outlined.PersonSearch),
-    Settings("Settings", Icons.Outlined.Settings)
+private enum class Page(@param:StringRes val titleResId: Int, val icon: ImageVector) {
+    Search(R.string.search, Icons.Outlined.PersonSearch),
+    Settings(R.string.settings, Icons.Outlined.Settings)
 }
 
 @Preview

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Call Inspector</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="search_phone_number_hint">Search phone number</string>
+    <string name="unknown">Unknown</string>
+    <string name="fraud">Fraud</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="country_code">Country code</string>
+    <string name="country_code_description">This country code will be used to represent the country phone code</string>
+    <string name="truecaller_access_token">TrueCaller access token</string>
+    <string name="truecaller_access_token_description">This token will be used to send to TrueCaller server to authorize</string>
+    <string name="show_caller_information">Show caller information</string>
+    <string name="show_caller_information_description">Enable this setting to show caller information overlay for incomming call</string>
+    <string name="not_set">Not set</string>
+    <string name="access_token_masked">********</string>
+    <string name="error_caller_info_overlay_role_not_held">Cannot show caller information overlay without Call Screening role</string>
+    <string name="error_permission_denied">Permission denied. Cannot show caller information overlay.</string>
+    <string name="error_role_not_available">Call Screening role is not available on this device</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_access_token_title">TrueCaller Access Token</string>
+    <string name="dialog_access_token_label">Access Token</string>
+    <string name="dialog_country_code_title">Select Country Code</string>
 </resources>
