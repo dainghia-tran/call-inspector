@@ -10,7 +10,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AppConfigDataStore @Inject constructor(@ApplicationContext context: Context) {
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "app_config")
     private val dataStore: DataStore<Preferences> = context.dataStore
