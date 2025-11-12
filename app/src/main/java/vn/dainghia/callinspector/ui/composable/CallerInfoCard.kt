@@ -3,6 +3,7 @@ package vn.dainghia.callinspector.ui.composable
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -35,6 +37,7 @@ import vn.dainghia.callinspector.util.CountryCodeUtil
 fun CallerInfoCard(
     trueCallerResponse: TrueCallerResponse,
     modifier: Modifier = Modifier,
+    onCloseClick: (() -> Unit)? = null,
     onDrag: (Offset) -> Unit = {}
 ) {
     Box(
@@ -77,6 +80,9 @@ fun CallerInfoCard(
                 if (trueCallerResponse.isFraud) {
                     FraudWarning()
                 }
+                if (onCloseClick != null) {
+                    CloseButton(onCloseClick)
+                }
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             Address(trueCallerResponse.addresses)
@@ -111,6 +117,23 @@ private fun FraudWarning(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onError
         )
     }
+}
+
+@Composable
+private fun CloseButton(onCloseClick: () -> Unit, modifier: Modifier = Modifier) {
+    Icon(
+        imageVector = Icons.Default.Close,
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+        modifier = modifier
+            .padding(start = 8.dp)
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+                shape = RoundedCornerShape(size = 16.dp)
+            )
+            .padding(4.dp)
+            .clickable { onCloseClick() }
+    )
 }
 
 @Composable
@@ -180,7 +203,7 @@ private fun PhoneInformation(phones: List<PhoneInfo>, modifier: Modifier = Modif
         )
         Text(
             text = buildString {
-                if(phone.carrier.isNotBlank())
+                if (phone.carrier.isNotBlank())
                     append("${phone.carrier} - ")
                 append(phone.nationalFormat)
             },
@@ -224,6 +247,6 @@ private fun CallerInfoCardPreview() {
     )
 
     CallInspectorTheme {
-        CallerInfoCard(response)
+        CallerInfoCard(response, onCloseClick = {})
     }
 }
