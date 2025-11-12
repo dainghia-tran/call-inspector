@@ -3,9 +3,7 @@ package vn.dainghia.callinspector.ui.composable
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,16 +35,16 @@ import vn.dainghia.callinspector.util.CountryCodeUtil
 fun CallerInfoCard(
     trueCallerResponse: TrueCallerResponse,
     modifier: Modifier = Modifier,
-    onDragDelta: (Float) -> Unit = {}
+    onDrag: (Offset) -> Unit = {}
 ) {
-    val dragState = rememberDraggableState(onDragDelta)
-
     Box(
         modifier = modifier
-            .draggable(
-                state = dragState,
-                orientation = Orientation.Vertical
-            )
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consume()
+                    onDrag(dragAmount)
+                }
+            }
             .fillMaxWidth()
             .background(
                 MaterialTheme.colorScheme.primary,
