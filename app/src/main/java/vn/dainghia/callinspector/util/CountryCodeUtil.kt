@@ -19,6 +19,13 @@ object CountryCodeUtil {
         val secondLetterCodePoint = Character.codePointAt(countryCode, 1) - 0x41 + 0x1F1E6
 
         // Convert the code points back to characters and combine them into a String
-        return String(Character.toChars(firstLetterCodePoint)) + String(Character.toChars(secondLetterCodePoint))
+        return String(Character.toChars(firstLetterCodePoint)) + String(
+            Character.toChars(
+                secondLetterCodePoint
+            )
+        )
     }
+
+    fun getCountryName(countryCode: String): String? =
+        Locale.getAvailableLocales().first { it.country == countryCode }.displayCountry
 }
