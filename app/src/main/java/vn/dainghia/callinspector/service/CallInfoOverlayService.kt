@@ -70,6 +70,10 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
     private var screenHeight: Int = 0
     private var viewHeight: Int = 0
 
+    @Suppress("DEPRECATION")
+    private var phoneStateListener: PhoneStateListener? = null
+    private var telephonyCallback: TelephonyCallback? = null
+
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
@@ -87,27 +91,7 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
             screenHeight = displayMetrics.heightPixels
         }
 
-        val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            telephonyManager.registerTelephonyCallback(
-                mainExecutor,
-                object : TelephonyCallback(), TelephonyCallback.CallStateListener {
-                    override fun onCallStateChanged(state: Int) {
-                        handleCallStateChanged(state)
-                    }
-                }
-            )
-        } else {
-            @Suppress("DEPRECATION")
-            telephonyManager.listen(
-                object : PhoneStateListener() {
-                    override fun onCallStateChanged(state: Int, phoneNumber: String?) {
-                        handleCallStateChanged(state)
-                    }
-                },
-                PhoneStateListener.LISTEN_CALL_STATE
-            )
-        }
+        startCallMonitoring()
     }
 
     override fun onStartCommand(
@@ -209,6 +193,7 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
         super.onDestroy()
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         removeView()
+        stopCallMonitoring()
     }
 
     private fun removeView() {
@@ -217,6 +202,40 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
         }
         windowManager.removeView(contentView)
         contentView = null
+    }
+
+    private fun startCallMonitoring() {
+        val telephonyManager = getSystemService(TelephonyManager::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            telephonyCallback = object : TelephonyCallback(), TelephonyCallback.CallStateListener {
+                override fun onCallStateChanged(state: Int) {
+                    handleCallStateChanged(state)
+                }
+            }
+            telephonyCallback?.let {
+                telephonyManager.registerTelephonyCallback(mainExecutor, it)
+            }
+        } else @Suppress("DEPRECATION") {
+            phoneStateListener = object : PhoneStateListener() {
+                override fun onCallStateChanged(state: Int, phoneNumber: String?) {
+                    handleCallStateChanged(state)
+                }
+            }
+            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+        }
+    }
+
+    private fun stopCallMonitoring() {
+        val telephonyManager = getSystemService(TelephonyManager::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            telephonyCallback?.let {
+                telephonyManager.unregisterTelephonyCallback(it)
+            }
+        } else @Suppress("DEPRECATION") {
+            phoneStateListener?.let {
+                telephonyManager.listen(it, PhoneStateListener.LISTEN_NONE)
+            }
+        }
     }
 
     private fun handleCallStateChanged(state: Int) {
