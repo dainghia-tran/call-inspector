@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kiểm tra Cuộc gọi</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="settings">Cài đặt</string>
+    <string name="search_phone_number_hint">Tìm kiếm số điện thoại</string>
+    <string name="unknown">Không xác định</string>
+    <string name="fraud">Giả mạo</string>
+    <string name="address">Địa chỉ</string>
+    <string name="phone">Điện thoại</string>
+    <string name="country_code">Mã quốc gia</string>
+    <string name="country_code_description">Mã quốc gia này sẽ được sử dụng để biểu thị mã quốc gia điện thoại</string>
+    <string name="truecaller_access_token">Token truy cập TrueCaller</string>
+    <string name="truecaller_access_token_description">Token này sẽ được sử dụng để gửi tới máy chủ TrueCaller để xác thực</string>
+    <string name="show_caller_information">Hiển thị thông tin người gọi</string>
+    <string name="show_caller_information_description">Bật cài đặt này để hiển thị lớp phủ thông tin người gọi cho cuộc gọi đến</string>
+    <string name="not_set">Chưa đặt</string>
+    <string name="access_token_masked">********</string>
+    <string name="error_caller_info_overlay_role_not_held">Không thể hiển thị lớp phủ thông tin người gọi mà không có vai trò Lọc cuộc gọi</string>
+    <string name="error_permission_denied">Quyền bị từ chối. Không thể hiển thị lớp phủ thông tin người gọi.</string>
+    <string name="error_role_not_available">Vai trò Lọc cuộc gọi không khả dụng trên thiết bị này</string>
+    <string name="dialog_cancel">Hủy</string>
+    <string name="dialog_save">Lưu</string>
+    <string name="dialog_access_token_title">Token truy cập TrueCaller</string>
+    <string name="dialog_access_token_label">Token truy cập</string>
+    <string name="dialog_country_code_title">Chọn Mã quốc gia</string>
+</resources>
+
