@@ -39,7 +39,7 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
-class CallInfoService : Service(), LifecycleOwner, SavedStateRegistryOwner {
+class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwner {
 
     @Inject
     lateinit var appConfigRepository: AppConfigRepository
@@ -126,8 +126,8 @@ class CallInfoService : Service(), LifecycleOwner, SavedStateRegistryOwner {
         params.gravity = Gravity.TOP or Gravity.START
 
         contentView = ComposeView(this).apply {
-            setViewTreeSavedStateRegistryOwner(this@CallInfoService)
-            setViewTreeLifecycleOwner(this@CallInfoService)
+            setViewTreeSavedStateRegistryOwner(this@CallInfoOverlayService)
+            setViewTreeLifecycleOwner(this@CallInfoOverlayService)
 
             setContent {
                 CallInspectorTheme {
@@ -188,7 +188,7 @@ class CallInfoService : Service(), LifecycleOwner, SavedStateRegistryOwner {
         private const val PHONE_NUMBER_KEY: String = "phone_number"
 
         fun createIntent(context: Context, phoneNumber: String): Intent =
-            Intent(context, CallInfoService::class.java).apply {
+            Intent(context, CallInfoOverlayService::class.java).apply {
                 putExtra(PHONE_NUMBER_KEY, phoneNumber)
             }
     }

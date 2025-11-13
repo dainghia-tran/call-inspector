@@ -19,7 +19,7 @@ class ScreeningService : CallScreeningService() {
         }
 
         val phoneNumber = callDetails.handle.schemeSpecificPart
-        val intent = CallInfoService.createIntent(application, phoneNumber)
+        val intent = CallInfoOverlayService.createIntent(application, phoneNumber)
         startService(intent)
     }
 

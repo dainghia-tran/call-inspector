@@ -34,7 +34,7 @@
             </intent-filter>
         </service>
 
-        <service android:name=".service.CallInfoService" />
+        <service android:name=".service.CallInfoOverlayService" />
     </application>
 
 </manifest>
