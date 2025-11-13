@@ -8,8 +8,8 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import vn.dainghia.callinspector.ui.screen.home.HomeScreen
 import vn.dainghia.callinspector.ui.screen.home.settings.SettingsViewModel
-import vn.dainghia.callinspector.ui.screen.home.settings.isEligibleForCallerInfoOverlay
 import vn.dainghia.callinspector.ui.theme.CallInspectorTheme
+import vn.dainghia.callinspector.util.CallerInfoOverlayPermissionHelper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         checkAndUpdateConfig()
 
         setContent {
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkAndUpdateConfig() {
-        val isEligible = isEligibleForCallerInfoOverlay(this)
+        val isEligible = CallerInfoOverlayPermissionHelper.isEligible(this)
         if (!isEligible) {
             settingsViewModel.updateShouldShowCallerInfoOverlay(false)
         }

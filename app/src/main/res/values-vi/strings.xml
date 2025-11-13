@@ -16,9 +16,7 @@
     <string name="show_caller_information_description">Bật cài đặt này để hiển thị lớp phủ thông tin người gọi cho cuộc gọi đến</string>
     <string name="not_set">Chưa đặt</string>
     <string name="access_token_masked">********</string>
-    <string name="error_caller_info_overlay_role_not_held">Không thể hiển thị lớp phủ thông tin người gọi mà không có vai trò Lọc cuộc gọi</string>
     <string name="error_permission_denied">Quyền bị từ chối. Không thể hiển thị lớp phủ thông tin người gọi.</string>
-    <string name="error_role_not_available">Vai trò Lọc cuộc gọi không khả dụng trên thiết bị này</string>
     <string name="dialog_cancel">Hủy</string>
     <string name="dialog_save">Lưu</string>
     <string name="dialog_access_token_title">Token truy cập TrueCaller</string>

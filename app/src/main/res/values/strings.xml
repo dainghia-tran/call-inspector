@@ -15,9 +15,7 @@
     <string name="show_caller_information_description">Enable this setting to show caller information overlay for incomming call</string>
     <string name="not_set">Not set</string>
     <string name="access_token_masked">********</string>
-    <string name="error_caller_info_overlay_role_not_held">Cannot show caller information overlay without Call Screening role</string>
     <string name="error_permission_denied">Permission denied. Cannot show caller information overlay.</string>
-    <string name="error_role_not_available">Call Screening role is not available on this device</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_access_token_title">TrueCaller Access Token</string>
