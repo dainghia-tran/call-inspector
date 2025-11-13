@@ -1,24 +1,29 @@
 package vn.dainghia.callinspector.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
-import android.graphics.Rect
 import android.os.Build
 import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -30,6 +35,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import vn.dainghia.callinspector.R
 import vn.dainghia.callinspector.data.model.TrueCallerResponse
 import vn.dainghia.callinspector.data.repository.AppConfigRepository
 import vn.dainghia.callinspector.data.repository.TrueCallerRepository
@@ -72,6 +78,15 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            screenHeight = windowManager.currentWindowMetrics.bounds.height()
+        } else @Suppress("DEPRECATION") {
+            val display = windowManager.defaultDisplay
+            val displayMetrics = DisplayMetrics()
+            display.getMetrics(displayMetrics)
+            screenHeight = displayMetrics.heightPixels
+        }
+
         val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             telephonyManager.registerTelephonyCallback(
@@ -100,6 +115,12 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
         flags: Int,
         startId: Int
     ): Int {
+        removeView()
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            showNotification()
+        }
+
         val phoneNumber = intent?.getStringExtra(PHONE_NUMBER_KEY) ?: ""
         lifecycle.coroutineScope.launch {
             val shouldShowOverlay = appConfigRepository.getShouldShowCallerInfoOverlay()
@@ -107,15 +128,15 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
                 return@launch
             }
 
-            trueCallerRepository.searchCallerInfo(phoneNumber).onSuccess(::showInfoCard)
+            trueCallerRepository.searchCallerInfo(phoneNumber)
+                .onSuccess(::showInfoCard)
+                .onFailure { stopSelf() }
         }
-        return START_NOT_STICKY
+
+        return START_REDELIVER_INTENT
     }
 
     private fun showInfoCard(trueCallerResponse: TrueCallerResponse) {
-        val windowBounds: Rect = windowManager.currentWindowMetrics.bounds
-        screenHeight = windowBounds.height()
-
         val params = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -166,6 +187,24 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
         windowManager.addView(contentView, params)
     }
 
+    private fun showNotification() {
+        createNotificationChannel()
+        val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setContentTitle(ContextCompat.getString(this, R.string.notification_title))
+            .build()
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    private fun createNotificationChannel() {
+        val serviceChannel = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            ContextCompat.getString(this, R.string.notification_channel_name),
+            NotificationManager.IMPORTANCE_LOW
+        )
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(serviceChannel)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -173,7 +212,9 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
     }
 
     private fun removeView() {
-        if (contentView == null) return
+        if (contentView == null) {
+            return
+        }
         windowManager.removeView(contentView)
         contentView = null
     }
@@ -186,10 +227,20 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
 
     companion object {
         private const val PHONE_NUMBER_KEY: String = "phone_number"
+        private const val STATE_KEY: String = "state"
+        private const val NOTIFICATION_CHANNEL_ID = "call_info_overlay_service_channel"
+        private const val NOTIFICATION_ID = 1
 
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         fun createIntent(context: Context, phoneNumber: String): Intent =
             Intent(context, CallInfoOverlayService::class.java).apply {
                 putExtra(PHONE_NUMBER_KEY, phoneNumber)
+            }
+
+        fun createIntent(context: Context, phoneNumber: String, state: String): Intent =
+            Intent(context, CallInfoOverlayService::class.java).apply {
+                putExtra(PHONE_NUMBER_KEY, phoneNumber)
+                putExtra(STATE_KEY, state)
             }
     }
 }

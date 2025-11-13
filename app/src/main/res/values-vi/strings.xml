@@ -22,5 +22,7 @@
     <string name="dialog_access_token_title">Token truy cập TrueCaller</string>
     <string name="dialog_access_token_label">Token truy cập</string>
     <string name="dialog_country_code_title">Chọn Mã quốc gia</string>
+    <string name="notification_channel_name">Thông báo Kiểm tra Cuộc gọi</string>
+    <string name="notification_title">Kiểm tra Cuộc gọi đang chạy</string>
 </resources>
 

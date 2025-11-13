@@ -21,4 +21,6 @@
     <string name="dialog_access_token_title">TrueCaller Access Token</string>
     <string name="dialog_access_token_label">Access Token</string>
     <string name="dialog_country_code_title">Select Country Code</string>
+    <string name="notification_channel_name">Call Inspector Notifications</string>
+    <string name="notification_title">Call Inspector is running</string>
 </resources>
