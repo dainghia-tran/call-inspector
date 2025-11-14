@@ -121,11 +121,12 @@ class CallInfoOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwne
     }
 
     private fun showInfoCard(trueCallerResponse: TrueCallerResponse) {
+        @Suppress("DEPRECATION")
         val params = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,
             PixelFormat.TRANSLUCENT
         )
         params.gravity = Gravity.TOP or Gravity.START
